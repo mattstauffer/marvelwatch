@@ -35,4 +35,9 @@ return [
         'secret' => env('STRIPE_SECRET'),
     ],
 
+    'marvel' => [
+        'public' => env('MARVEL_PUBLIC'),
+        'private' => env('MARVEL_PRIVATE')
+    ],
+
 ];
