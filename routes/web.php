@@ -1,6 +1,6 @@
 <?php
 
-use Marvel\Client;
+use App\Marvel\Series;
 
 Auth::loginUsingId(1);
 
@@ -8,14 +8,16 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('series', function (Client $marvel) {
+Route::get('series', function () {
     /*
     $series = cache()->remember('series', 60, function () use ($marvel) {
         return $marvel->series->index(1, 9999);
     });
     */
+    // dd(app(Series::class)->all());
 
-    $series = $marvel->series->index(1000, 5);
+    // $series = $marvel->series->index(1000, 5);
+    $series = app(Series::class)->all();
 
     return view('series')->with('series', $series);
 });
