@@ -81,6 +81,12 @@
         @yield('content')
     </div>
 
+    <footer class="footer">
+        <div class="container">
+            <p class="text-muted">Data provided by Marvel. &copy; {{ date('Y') }} Marvel</p>
+        </div>
+    </footer>
+
     <!-- Scripts -->
     <script src="/js/app.js"></script>
 </body>
