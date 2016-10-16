@@ -15,31 +15,31 @@ class Series
         $this->marvel = $marvel;
     }
 
-    public function all()
+    public function count($params = [])
     {
-        return cache()->remember('series', $this->cacheLength, function () {
-            return $this->allFromApi();
+        return cache()->remember('seriesCount:' . md5(json_encode($params)), $this->cacheLength, function () use ($params) {
+            return $this->marvel->series->index(1, 1, $params)->total;
         });
     }
 
-    private function allFromApi()
+    public function pageCount($params = [])
     {
-        return collect(range(1, $this->countSeries()))->flatMap(function ($page) {
-            return $this->seriesPageFromApi($page);
+        return cache()->remember('seriesPageCount:' . md5(json_encode($params)), $this->cacheLength, function () use ($params) {
+            return intval(ceil($this->count($params) / $this->pageLength));
         });
     }
 
-    private function seriesPageFromApi($page)
+    public function forPage($page, $params = [])
     {
         return $this->marvel->series->index(
             $page - 1,
-            $this->pageLength
+            $this->pageLength,
+            $params
         )->data;
     }
 
-    private function countSeries()
+    public function find($id)
     {
-        $countItems = $this->marvel->series->index(1, 1)->total;
-        return intval(ceil($countItems / $this->pageLength));
+        throw new \Exception('todo');
     }
 }

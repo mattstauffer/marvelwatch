@@ -9,15 +9,9 @@ Route::get('/', function () {
 });
 
 Route::get('series', function () {
-    /*
-    $series = cache()->remember('series', 60, function () use ($marvel) {
-        return $marvel->series->index(1, 9999);
+    $series = cache()->remember('seriesFromDb', 1, function () {
+        return \App\Series::orderBy('title')->select(['id', 'title'])->get();
     });
-    */
-    // dd(app(Series::class)->all());
-
-    // $series = $marvel->series->index(1000, 5);
-    $series = app(Series::class)->all();
 
     return view('series')->with('series', $series);
 });
@@ -35,7 +29,5 @@ Route::get('series/{id}/subscriptions/delete', function ($seriesId) {
 
     return redirect()->back();
 });
-
-// cron that checks for new and emails
 
 Auth::routes();
