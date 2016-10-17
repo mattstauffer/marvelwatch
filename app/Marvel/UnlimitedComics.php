@@ -34,4 +34,15 @@ class UnlimitedComics
             array_merge($this->baseParams, $params)
         )->data;
     }
+
+    public function find($comicId)
+    {
+        // @todo
+    }
+
+    public function newThisWeek()
+    {
+        // get this and return it:
+        // http://api.marvel.com/browse/comics?byType=date&getThumb=1&isDigital=1&dateStart=2016-10-10&dateEnd=2016-10-16&offset=0&limit=5000&orderBy=release_date+desc&byZone=marvel_site_zone&formatType=issue,digitalcomic
+    }
 }

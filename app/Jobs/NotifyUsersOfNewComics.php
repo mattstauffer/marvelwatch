@@ -26,8 +26,16 @@ class NotifyUsersOfNewComics implements ShouldQueue
         $this->since = Carbon::now()->subWeek();
     }
 
+    // get this:
+    // http://api.marvel.com/browse/comics?byType=date&getThumb=1&isDigital=1&dateStart=2016-10-10&dateEnd=2016-10-16&offset=0&limit=5000&orderBy=release_date+desc&byZone=marvel_site_zone&formatType=issue,digitalcomic
+    // every night, pull this data down; check its hash against the previous night's hash
+    // if it's changed, trigger a event to notify:
+    // notify event = for each comic, make sure we haven't notified already; if we haven't, look up the comic in the real API by ID, and then parse the series ID out of the series REsrouceAPI string, then use that series ID to look up subscriptions in our database; find anyone who's subscribed to this series, and notify them
+    // Every time we notify about a comic, save its ID in the "notified comics" table or whatever so we never accidentally re-notify about it
+
     public function handle()
     {
+        $this->subscribedSeries()->
         $this->updatedSeries()->filter(function ($series) {
             return $this->seriesIsSubscribed($series);
         })->each(function ($series) {
